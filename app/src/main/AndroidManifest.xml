@@ -32,6 +32,11 @@
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.HabitApp" />
             
+        <activity
+            android:name=".ui.calendar.CalendarViewActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.HabitApp" />
+            
     </application>
 
 </manifest>

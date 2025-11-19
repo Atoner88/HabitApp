@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
@@ -18,7 +19,8 @@ import java.time.LocalDate
 
 class HabitAdapter(
     private val onHabitClick: (Habit) -> Unit,
-    private val onHabitToggle: (Habit, LocalDate) -> Unit
+    private val onHabitToggle: (Habit, LocalDate) -> Unit,
+    private val onCalendarClick: ((Habit) -> Unit)? = null
 ) : ListAdapter<HabitWithCategory, HabitAdapter.HabitViewHolder>(HabitDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
@@ -29,7 +31,7 @@ class HabitAdapter(
 
     override fun onBindViewHolder(holder: HabitViewHolder, position: Int) {
         val habitWithCategory = getItem(position)
-        holder.bind(habitWithCategory, onHabitClick, onHabitToggle)
+        holder.bind(habitWithCategory, onHabitClick, onHabitToggle, onCalendarClick)
     }
 
     class HabitViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,11 +40,13 @@ class HabitAdapter(
         private val categoryTextView: TextView = itemView.findViewById(R.id.habitCategory)
         private val streakTextView: TextView = itemView.findViewById(R.id.habitStreak)
         private val todayCheckBox: CheckBox = itemView.findViewById(R.id.todayCheckBox)
+        private val calendarButton: ImageButton? = itemView.findViewById(R.id.calendarButton)
 
         fun bind(
             habitWithCategory: HabitWithCategory,
             onHabitClick: (Habit) -> Unit,
-            onHabitToggle: (Habit, LocalDate) -> Unit
+            onHabitToggle: (Habit, LocalDate) -> Unit,
+            onCalendarClick: ((Habit) -> Unit)?
         ) {
             val habit = habitWithCategory.habit
             val category = habitWithCategory.category
@@ -76,6 +80,12 @@ class HabitAdapter(
             todayCheckBox.setOnCheckedChangeListener { _, _ ->
                 onHabitToggle(habit, LocalDate.now())
             }
+            
+            // Calendar button
+            calendarButton?.setOnClickListener {
+                onCalendarClick?.invoke(habit)
+            }
+            calendarButton?.visibility = if (onCalendarClick != null) View.VISIBLE else View.GONE
         }
     }
 

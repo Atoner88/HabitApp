@@ -41,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             },
             onHabitToggle = { habit, date ->
                 habitViewModel.toggleHabitCompletion(habit.id, date)
+            },
+            onCalendarClick = { habit ->
+                val intent = Intent(this, com.atoner.habitapp.ui.calendar.CalendarViewActivity::class.java)
+                intent.putExtra(com.atoner.habitapp.ui.calendar.CalendarViewActivity.EXTRA_HABIT_ID, habit.id)
+                startActivity(intent)
             }
         )
         

@@ -76,9 +76,6 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // Calendar View
-    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
-
     // Compose (optional for modern UI)
     val composeVersion = "1.6.0"
     implementation("androidx.compose.ui:ui:$composeVersion")
